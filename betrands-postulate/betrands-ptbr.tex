@@ -1,0 +1,464 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{url} % for \url command
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+
+
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposição}
+\newtheorem{corollary}[theorem]{Corolário}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Observação}
+\newtheorem{definition}[theorem]{Definição}
+\newtheorem{notation}[theorem]{Notação}
+
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\vs}{\vspace{10px}}
+
+\DeclareMathOperator{\val}{v}
+\DeclareMathOperator{\vv}{v}
+
+\title{\textbf{O Postulado de Bertrand: Uma Demonstração Autocontida}}
+\author{Lucas Henrique Martins da Silva}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Apresentamos uma exposição autocontida da demonstração de Erd\H{o}s para o postulado de Bertrand \cite{Erdos1932Tschebyschef}. O argumento baseia-se na fatoração do coeficiente binomial central $B_n:=\binom{2n}{n}$. O teorema binomial fornece um limite inferior para este coeficiente, enquanto propriedades elementares da fatoração em primos fornecem um limite superior sob a suposição de que não existe nenhum primo entre $n$ e $2n$. Os dois limites obtidos possuem crescimentos exponenciais incompatíveis, gerando uma contradição. A demonstração é completamente elementar e pode ser apresentada a estudantes do ensino básico.
+\end{abstract}
+
+\section{Introdução}
+O nosso objeto de interesse neste artigo é o seguinte teorema clássico:
+
+\begin{theorem}[Postulado de Bertrand]
+    Para todo inteiro $n\geq 2$, existe um número primo $p$ estritamente entre $n$ e $2n$; isto é, $n<p<2n$. 
+\end{theorem}
+
+De forma equivalente, pode-se enunciar o Postulado de Bertrand em termos da bem conhecida função de contagem de primos  
+$\pi(x):=\#\{p\in \mathbb N: p\le x \text{ e } p \text{ é primo}\}$,
+para a qual a afirmação se torna \[\forall x\ge 2:\quad \pi(x)-\pi\left(\frac x2\right)\ge 1.\]
+\vs 
+
+As ideias principais da nossa demonstração devem-se a Erd\H{o}s \cite{Erdos1932Tschebyschef}; de fato, as modificações e observações que fazemos servem para garantir que o escopo dos fatos utilizados permaneça elementar.
+
+A sua principal característica é que ela não utiliza ferramentas da teoria analítica dos números, ao contrário da demonstração de Chebyshev. Em vez disso, ela codifica informações sobre primos em um único número inteiro cujo tamanho pode ser estimado de duas maneiras independentes. Apresentamos primeiro um esboço da demonstração, explorando as ideias principais.
+\vs
+
+O número inteiro que utilizamos é o coeficiente binomial central \[B_n:=\binom{2n}{n}.\]
+Existem duas razões para esta escolha:
+
+\begin{enumerate}
+    \item Primeiro, a sua forma completa em termos de fatoriais
+\[
+B_n=\frac{(2n)!}{(n!)^2}
+\]
+torna possível determinar de forma bastante precisa quais primos podem ocorrer em sua fatoração e com qual multiplicidade; como $(2n)!$ é dividido pelo quadrado de $n!$, se tal primo $n < p < 2n$ existir, ele é certamente um fator de $B_n$, já que $p$ não pode aparecer no produto $n!$. 
+
+\item Segundo, o teorema binomial implica que $B_n$ é necessariamente grande; já que $B_n\geq \frac{4^n}{2n+1}$, temos $B_n\approx 4^n$.\footnote{De fato, a aproximação de Stirling mostra que $B_n \sim \frac{4^n}{\sqrt{n\pi}}$ assintoticamente.} Isso impõe limites sobre os primos (e seus expoentes) que podem aparecer na fatoração de $B_n$. Se não houvesse primos $n <p<2n$, então $B_n$ certamente teria apenas primos ``pequenos'' em sua fatoração, de onde decorre a contradição.
+\end{enumerate}
+
+Produziremos os dois limites incompatíveis para $B_n$. Um é elementar e de fato se mantém, sendo aquele dado pelo teorema binomial. O outro, consequência de supor que o Postulado de Bertrand é falso, baseia-se na ideia engenhosa de que os expoentes dos primos em $n!$ são fáceis de calcular por meio da bem conhecida \textit{Fórmula de Legendre}. Usando essa ideia e uma desigualdade muito útil sobre a função parte inteira, pode-se limitar $B_n$ (ou melhor, seus fatores primos) em duas etapas:
+\begin{enumerate}
+    \item primeiro mostrando que todo primo que é \textit{suficientemente grande} em comparação a $n$ ($p >\sqrt{2n}$) pode aparecer com expoente \textit{no máximo} um na fatoração em primos de $B_n$, e depois
+    \item mostrando que não pode haver \textit{primos muito grandes} na fatoração de $B_n$ (explicitamente, $\frac{2n}3<p\le n$).
+\end{enumerate}
+
+Combinando as ideias anteriores, somos capazes de dar limites aproximados para as contribuições das potências de primos $p^k$ em $B_n=\prod p_i^{k_i}$ se escolhermos primos $p \le n$: as contribuições de primos pequenos ($p\le \sqrt{2n}$) podem ser no máximo $(2n)^{\sqrt{2n}}$, e as contribuições de primos grandes podem ser no máximo $P(2n/3)$, onde $P(x)$ é a função \textit{primorial}. 
+\vs
+
+Se o Postulado de Bertrand for falso, estes são todos os fatores que $B_n$ pode ter; visando uma contradição, usamos finalmente a estimativa elementar $P(x)< 4^x$ para o primorial, para obter
+
+\[\frac{4^n}{2n+1}\le B_n<4^{2n/3}(2n)^{\sqrt{2n}},\]
+
+e concluímos a demonstração mostrando por meios elementares que essa desigualdade não se mantém para $n$ suficientemente grande ($n\ge 4096$), enquanto verificamos caso a caso o número finito de casos restantes. A seguir, daremos \textit{ideia} de por que esse limite não deveria se manter, através de uma análise assintótica simples. Note que isso é mais elaborado do que a nossa abordagem real, que é elementar -- o intuito é mostrar \textit{como} alguém deduziria que estes limites são assintoticamente distintos.
+\vs
+
+Primeiro, note que se essas desigualdades valem, então teríamos $4^{n/3}< (2n+1)(2n)^{\sqrt{2n}}$; passando todas as exponenciais para a base natural e usando que $2n+1 \approx 2n$,\footnote{Formalmente, para quem conhece a notação $O$: $2n+1=2n(1+o(1))$.} tem-se $\frac{\ln4}{3}n\le (\sqrt{2n}+1)\ln(2n)$. O ponto aqui é que $\ln(t)$ cresce mais devagar do que $t^\alpha$ para todo $\alpha$ positivo, logo, dividindo por $n$ implicaria que $(\sqrt{2}+1/\sqrt{n})\frac{\ln(2n)}{\sqrt{n}}\ge \ln4/3$. O primeiro fator converge para uma constante quando $n\to \infty$ e o segundo fator vai para $0$, de modo que toda a expressão do lado esquerdo vai para zero. Em particular, ela não pode ser maior que um número positivo para todo $n$.
+
+Isso significa que a desigualdade obtida ao \textit{rejeitar} o Postulado de Bertrand só pode se manter para finitos $n\le N_0$. Em particular, o Postulado de Bertrand só poderia falhar para esses finitos casos, os quais podemos então verificar explicitamente.
+\vs
+
+A fim de apresentar uma demonstração autossuficiente, apresentamos primeiro a notação, definições básicas e ferramentas que usaremos. O leitor ciente dos fatos principais sobre funções matemáticas usuais pode pular diretamente para a demonstração. Assumimos que o leitor conhece teoria dos números básica, além de notações de somatório, produto, etc.
+
+\section{Preliminares}
+Recordemos definições e fatos básicos da teoria dos números.
+
+\vs
+\subsection{Definições e Notação}
+
+\begin{definition}
+    Seja $p\in \mathbb Z$ um número primo e $x\in \mathbb R$ um número real arbitrário.
+    
+    Definimos as seguintes funções:
+    \begin{itemize}
+        \item a função parte inteira (piso) $\floor{-}$, dada por $x\in \mathbb R\mapsto n\in \mathbb Z$, onde $n$ é o único inteiro tal que $n\le x<n+1$;
+        \item a função teto $\ceil{-}$, dada por $x\in \mathbb R\mapsto n\in \mathbb Z$, onde $n$ é o único inteiro tal que $n-1<x\le n$;
+        \item a função valoração $p$-ádica $\val_p$, dada por $n\in \mathbb Z\mapsto e\in\mathbb Z_{\ge 0}$, onde $e$ é o expoente de $p$ na fatoração em primos de $n$ -- isto é, para $n=p^e n'$, com $p\nmid n'$, temos $\val_p(n):= e$;
+        \item a função primorial $P$, dada por $x\in \mathbb R \mapsto \prod\limits_{\substack{p\text{ primo} \\ p\le x}}p\in \mathbb Z_{\ge 0}$, com a convenção $P(x)=1$ para $x<2$.\footnote{Esta notação não é padrão.}
+    \end{itemize}
+\end{definition}
+
+Recordamos que $\vv_p$ possui a \textbf{propriedade logarítmica}: para quaisquer dois inteiros não nulos $a,b\in \mathbb Z$, vale que $\vv_p(ab) = \vv_p(a)+\vv_p(b)$. Dessa propriedade, segue claramente que se $b\mid a$, então $\val_p(\frac{a}{b})= \val_p(a)-\val_p(b)$.\vs
+
+Por completude, recordamos também que dados $n\in \mathbb Z_{\ge 0}$ e $m\in \mathbb Z$ com $0\le m\le n$, os coeficientes binomiais são definidos como $\binom{n}{m}:= \frac{n!}{m!(n-m)!}$, que são sempre inteiros positivos. Assumimos que o leitor conhece fatos básicos relacionados a fatoriais e binomiais; em particular, usaremos ativamente o teorema binomial.
+\vs
+
+\begin{notation}
+    Dado um conjunto finito $S$, denotamos a sua cardinalidade (isto é, o seu número de elementos) por $\#S$. Dado um inteiro positivo $n\in\mathbb Z_{>0}$, denotaremos o conjunto $\{1,\ldots, n\}$ por $[n]$. 
+\end{notation}
+
+\vs
+\subsection{Propriedades dos Binomiais}
+
+Agora, provamos um fato básico referente ao comportamento dos binomiais. Informalmente, o fato a seguir estabelece que ``os números em uma linha do triângulo de Pascal aumentam até o meio, e depois começam a diminuir''. 
+
+\begin{lemma} \label{lemma:binomial_monotonicity}
+    Seja $m\ge 1$ um número natural fixo e sejam $b_k:= \binom{m}{k}$ os coeficientes binomiais para $0\le k\le n$. Então $b_k$ é estritamente crescente para $0\le k \le \floor{\frac m2}$, estável em $k=\floor{\frac m2}, \ceil{\frac m2}$ e estritamente decrescente para $\ceil{\frac m2}\le k\le n$.
+
+    Como corolário, $b_k$ atinge o máximo em $k= \floor{\frac m2}, \ceil{\frac m2}$, e estes dois valores correspondem a um único $k$ se e somente se $m = 2n$; o maior coeficiente binomial neste caso é para $k = n$, sendo $\binom{2n}{n}$.
+\end{lemma}
+\vs
+
+\begin{proof}
+    Para provar essas afirmações, usamos a observação óbvia de que $b_{k+1}$ é respectivamente maior, igual ou menor do que $b_k$ se e somente se $r_k:=b_{k+1}/b_k$ for maior, igual ou menor do que $1$. Escrevendo $r_k$ explicitamente obtemos
+
+    \begin{align*}
+        r_k &= \frac{\binom{m}{k+1}}{\binom{m}{k}}\\
+        &= \frac{\frac{m!}{(k+1)!(m-k-1)!}}{\frac{m!}{k!(m-k)!}}\\
+        &= \frac{k!}{(k+1)!}\cdot \frac{(m-k)!}{(m-k-1)!}\\
+        &= \frac{m-k}{k+1}.
+    \end{align*}
+    
+    É claro que $r_k >1$ se e somente se $\frac{m-1}{2}> k$, e os casos $r_k=1$ e $r_k<1$ são completamente análogos. Para $r_k>1$, pode-se escrever a desigualdade $k<\frac{m-1}{2}$ em termos de $m=2n+1$ e $m= 2n$, o que produz $k<n\iff k\le n-1$ e $k<n-\frac 12\iff k\le n-1$, enquanto $n = \floor{\frac m2}$ em ambos os casos, fornecendo assim $r_k>1\iff k\le \floor{\frac m2}-1$; isto é, $b_k$ é crescente para $k=0,\ldots, \floor{\frac m2}$.
+    
+    Um raciocínio semelhante para desigualdades usando o teto produz $r_k>1\iff k\ge \ceil{\frac m2}$, e o caso de igualdade (isto é, $b_k=b_{k+1}$) só pode acontecer para $k= \frac{m-1}{2}$, ou seja, $m = 2n+1$ e $\binom{2n+1}{n}=\binom{2n+1}{n+1}$. Para $m=2n$ par, a sequência cresce até $k=\floor{\frac m2}=n$ e depois decresce, tornando $\binom{2n}{n}$ o maior coeficiente. 
+\end{proof}\vs
+
+Também apresentamos uma demonstração da Fórmula de Legendre, que diz como calcular o expoente de um determinado número primo em um fatorial.
+
+\begin{proposition}[Fórmula de Legendre] \label{prop:legendres_formula}
+    Seja $n\ge 1$ um número natural e $p$ um primo. Então $\val_p(n!) =\sum\limits_{k\ge 1}\left\lfloor \frac{n}{p^k}\right \rfloor.$
+\end{proposition}
+\vs
+\begin{proof}
+    Antes de iniciar a demonstração, precisamos verificar se tal expressão faz sentido, já que, do modo como está, poderia haver uma soma infinita sem sentido\footnote{\textit{Uma série divergente.}}. Na verdade, faz sentido: para qualquer inteiro $k> \log_p n$, segue que $p^k > n\implies0< \frac{n}{p^k}<1\implies \floor{\frac{n}{p^k}}=0$. Isto é, essa soma infinita é na verdade finita, para $k$ variando entre $1$ e $r:=\floor{\log_p n}$ -- o maior inteiro tal que $p^r \le n$. Ao longo desta exposição, utilizaremos recorrentemente que $\sum\limits_{k\ge 1}\left\lfloor \frac{n}{p^k}\right \rfloor = \sum\limits_{k=1}^{\floor{\log_p n}}\left\lfloor \frac{n}{p^k}\right \rfloor.$ 
+    \vs
+
+    Nossa estratégia será baseada em dividir os fatores $\{1,\ldots, n\}$ de $n!$ de acordo com a sua valoração $p$-ádica. Primeiro, para $k=0, ..., r$, definimos os conjuntos $P_k:= \{1\le m\le n: \vv_p(m) = k\}$; isto é, o subconjunto dos números entre $1$ e $n$ que possuem valoração $p$-ádica igual a $k$. Afirmamos que todo número em $\{1,\ldots, n\}$ pertence a um e exatamente um dos conjuntos $P_k$, o que equivale a dizer que $[n]= \bigsqcup\limits_{k=0}^rP_k$. De fato, toda valoração deve ser $\le r$: se houvesse $m\le n$ com $\val_p(m)> r$, então $p^{\val_p(m)}>n$ pela maximalidade de $r$ e, portanto, $m\ge p^{\val_p(m)}>n$, uma contradição. Portanto, certamente temos $[n]=\bigcup\limits_{k=0}^r P_k$, e é claro que essa união é disjunta.
+
+    Agora, pela propriedade logarítmica das valorações, é claro que $n! = \prod\limits_{m\in [n]}m\implies \val_p(n!) = \sum\limits_{m\in [n]}\val_p(m)=\sum\limits_{m\in \bigsqcup_{k=0}^rP_k} \val_p(m)$, e portanto 
+    
+    \begin{align*}
+        \val_p(n!)&=\sum\limits_{k=0}^r\sum\limits_{m\in P_k}\val_p(m) \\
+        &= \sum_{k=0}^r\sum_{m\in P_k}k \tag*{($m\in P_k\implies \val_p(m)=k$)}\\
+        &= \sum_{k=0}^r k\cdot \#P_k.
+    \end{align*}
+    \vs
+    
+    Agora, para calcular $\#P_k$, usamos a seguinte estratégia: podemos contar quantos números têm valoração $\ge k$ e quantos têm valoração $\ge k+1$; a diferença entre eles é precisamente quantos números têm valoração exatamente igual a $k$. Isto é, encontraremos a cardinalidade de $P'_k = \{1\le m\le n: \val_p(m)\ge k\}= \bigsqcup\limits_{i=k}^rP_i$, e usando que $P_k= P'_k\setminus P'_{k+1}$ com $P'_k\supseteq P'_{k+1}$, temos $\#P_k = \#P'_k - \#P'_{k+1}$ para todo $1\le k\le r$.
+    
+
+    Afirmamos que $\#P'_k = \left \lfloor \frac{n}{p^k}\right \rfloor$. De fato, para todo $1\le q\le \left \lfloor \frac{n}{p^k}\right \rfloor$, o número $m= p^k q$ está em $P'_k$, e para todo $m\in P'_k$, o número $\frac{m}{p^k}$ é um inteiro $\le \frac{n}{p^k}$, fornecendo uma bijeção $P'_k \leftrightarrow \left\{1,\ldots, \left \lfloor \frac{n}{p^k}\right \rfloor\right\}$ para todo $1\le k\le r$, provando nossa afirmação. A expressão para $\#P'_k$ também faz sentido para $k\ge r+1$, já que $P'_k=\emptyset$ e $\floor{\frac{n}{p^{r+1}}}=0$.
+
+    \vs
+    
+    Combinando esses fatos, podemos agora calcular $\val_p(n!)$. Temos:
+
+    \begin{align*}
+        \val_p(n!) &= \sum\limits_{k=0}^r k\cdot \#P_k\\
+        &= \sum\limits_{k=0}^rk\left( \#P_k'- \#P'_{k+1}\right)\\
+        &= \sum\limits_{k=0}^r k\cdot \#P'_k - \sum\limits_{k=0}^r k\cdot \#P'_{k+1}\\
+        &= \sum\limits_{k=0}^r k\cdot \#P'_k - \sum\limits_{k=1}^{r+1} (k-1)\cdot \#P'_{k}\\
+        &= \sum_{k=1}^r (k-(k-1))\cdot \#P'_k\\
+        &= \sum_{k=1}^r \left \lfloor \frac{n}{p^k} \right \rfloor,
+    \end{align*}
+
+    onde deslocamos os índices do somatório $\sum\limits_{k=0}^r k\#P'_{k+1}$ e usamos que $k\#P'_k=0$ para $k = 0$ e $(k-1)\#P'_k = 0$ para $k =r$.
+\end{proof}
+
+\vs
+\subsection{Uma Propriedade sobre $\floor{mx}-m\floor{x}$}
+
+Provamos uma propriedade muito fácil (porém poderosa) referente à função parte inteira.
+\vs
+
+\begin{proposition} \label{prop:difference_floor}
+    Para todo $x\in \mathbb R$ e todo $m\in \mathbb Z_{>0}$, a diferença $d_m(x):=\floor{mx}-m\floor{x}$ é um inteiro não negativo estritamente menor do que $m$. Isto é, $d_m(x)\in \{0,1,\ldots, m-1\}$. 
+    
+    Além disso, denotando por $\{x\}:= x-\floor{x}$ a parte fracionária de $x$, dado um $k\in \{0,\ldots, m-1\}$ fixo, tem-se \[d_m(x)=k\in \{0,\ldots, m-1\}\iff \frac{k}{m}\le \{x\}<\frac{k+1}{m}.\]
+\end{proposition}\vs
+
+\begin{proof}
+    Seja $n:=\floor{x}$, de modo que $n\le x<n+1$. Então $mn\le mx < mn+m$, logo $\floor{mx}\le mx<mn+m\implies \floor{mx}\le mn+m-1$. Portanto $mn-mn\le \floor{mx}-mn\le mn+m-1-mn$; isto é, $0\le \floor{mx}-m\floor{x}\le m-1$.\vspace{5px}
+
+    Agora seja $k =\floor{mx}-m\floor{x}\in \{0,1,\ldots, m-1\}$. Usando a definição de parte inteira para $\floor{mx}=k+m\floor{x}$, essa igualdade vale se e somente se $m\floor x+k\le mx< m\floor x+k+1$, logo $\floor x+\frac{k}{m}\le x< \floor x+\frac{k+1}{m}$, e subtraindo $\floor x$ a nossa afirmação segue.
+\end{proof}\vs
+
+Este foi o último fato elementar de que precisamos para provar o Postulado de Bertrand, então estamos prontos para prosseguir.
+
+
+\section{A Demonstração de Erd\H{o}s do Postulado de Bertrand}
+\subsection{Juntando os Ingredientes}
+
+Começamos a demonstração relacionando a fatoração em primos de $B_n$ com o Postulado de Bertrand; a saber, temos o seguinte lema sobre teoria dos números:
+\begin{lemma} \label{lemma:prime_factors_are_less_than_two_n}
+    Seja $p$ um primo tal que $p\mid B_n= \binom{2n}{n}$, com $n\ge 2$. Então $p < 2n$.
+
+    Em particular, se o Postulado de Bertrand for falso, então existe algum $n\ge 2$ para o qual todo fator $p$ de $B_n$ satisfaz $p\le n$.
+\end{lemma}
+\begin{proof}
+    Suponha que $p\mid B_n$. Segue que $p\mid (2n)! = (n!)^2B_n$. Pelo lema de Euclides, como $p$ divide o produto de $1,\ldots, 2n$, então $p$ deve dividir um deles; isto é, existe algum $m\le 2n$ tal que $p\mid m$. Em particular, isso implica que $p\le m\le 2n$. Como a igualdade $p=2n$ é claramente impossível visto que $2n$ não é primo para $n\ge 2$, segue que $p<2n$.
+    
+    Obtemos então que, se o Postulado de Bertrand for falso, existe algum $n$ para o qual todo primo $p<2n$ também deve satisfazer $p\le n$ (isto é, $n<p<2n$ nunca é satisfeito). Portanto, em particular, para tal $n$, todo fator primo de $B_n$ é menor ou igual a $n$.
+\end{proof}\vs
+
+
+Iniciamos agora as estimativas para $B_n$, começando com o limite inferior elementar para o coeficiente binomial central:
+
+\begin{lemma} \label{lemma:lower_bound_bn}
+Para todo inteiro $n\geq 1$,
+\[
+B_n:=\binom{2n}{n}\geq \frac{4^n}{2n+1}.
+\]
+\end{lemma}
+
+\begin{proof}
+Pelo lema \ref{lemma:binomial_monotonicity}, $B_n$ é o maior número entre $\binom{2n}{k}$, $0\le k\le 2n$. O teorema binomial garante que estes são precisamente os coeficientes de $x^k$ na expansão de $(1+x)^{2n}$. Portanto
+\[
+4^n
+=(1+1)^{2n}
+=\sum_{k=0}^{2n}\binom{2n}{k}
+\leq \sum_{k=0}^{2n}B_n = (2n+1)B_n,
+\]
+o que fornece $B_n\ge \frac{4^n}{2n+1}$, como afirmamos.
+\end{proof}
+\vs
+
+Dado o limite inferior básico, analisamos as valorações $p$-ádicas de $B_n$. Se $p$ é um primo qualquer, a propriedade logarítmica das valorações $p$-ádicas implica que
+
+\begin{align*}
+    \val_p(B_n)&=\val_p\left(\frac{(2n)!}{n!n!}\right)\\
+    &=\val_p((2n)!)-2\val_p(n!).
+\end{align*}
+
+Agora, aplicando a fórmula de Legendre \ref{prop:legendres_formula} para $\val_p(n!)$ e $\val_p((2n)!)$, temos
+\[
+\val_p(B_n)
+=
+\sum_{j\geq1}
+\left(
+\left\lfloor\frac{2n}{p^j}\right\rfloor
+-
+2\left\lfloor\frac{n}{p^j}\right\rfloor
+\right).
+\]
+
+
+A parte engenhosa é que cada parcela dessa expressão é uma diferença da forma $d_2(x)$ (como na Proposição \ref{prop:difference_floor}) para $x=\frac{n}{p^j}$, e sabemos que
+\[
+\lfloor 2x\rfloor-2\lfloor x\rfloor\in\{0,1\}.
+\]
+
+Consequentemente, cada parcela é $\le 1$. Disso, podemos inferir que $\val_p(B_n)\le \sum\limits_{j=1}^r 1= r$, onde $r$ é o maior inteiro para o qual $\floor{\frac{2n}{p^r}}\ne 0$; isto é, o piso de $\log_p(2n)$. Provamos exatamente o seguinte:
+
+\begin{lemma}\label{lemma:inequality_factors_bn}
+    Seja $B_n = \binom{2n}{n}$ e $p$ um número primo qualquer. Então $\val_p(B_n)\le \log_p(2n)$.
+
+    Como corolário, segue que:
+
+    \begin{enumerate}
+        \item para todo primo $p$, $p^{\vv_p(B_n)}\le 2n$, e
+        \item para $p > \sqrt{2n}$, $\vv_p(B_n)\le 1$ e $p^{\vv_p(B_n)}\le p$.
+    \end{enumerate}
+\end{lemma}
+
+A primeira afirmação do corolário é óbvia por nossa desigualdade: $\val_p(B_n)\le \log_p(2n)\implies p^{\vv_p(B_n)}\le p^{\log_p(2n)}= 2n$. A segunda afirmação segue do fato de que se $p>\sqrt{2n}$, então $1 = \log_p(p) >\frac{1}{2}\log_p(2n)\ge \frac{1}{2}\val_p(B_n)$, o que por sua vez implica que $\val_p(B_n)<2$, logo $\val_p(B_n)\le 1$, como desejado.
+\vs
+
+A próxima observação é o coração do argumento. Já mostramos que os possíveis fatores primos \textit{grandes} ($p>\sqrt{2n}$) de $B_n$ são escassos: quando (se!) aparecem, é apenas uma vez. O que podemos demonstrar a seguir é que primos ainda \textit{maiores} -- em relação a $n$ -- simplesmente não podem aparecer:
+
+\begin{lemma} \label{lemma:threshold_no_primes_in_bn}
+Se
+\[
+\frac{2n}{3}<p\leq n
+\]
+for primo, então
+\[
+\val_p\!\left(\binom{2n}{n}\right)=0.
+\]
+
+Em particular, se $p\le n$ for um divisor primo de $B_n$, então $p\le \frac{2n}3$. 
+\end{lemma}
+
+\begin{proof}
+
+É natural pensar em quão grande $p$ é \textit{relativamente} a $n$, portanto definimos $k:= p/n$. Acreditamos fortemente que existem primos $n < p < 2n$, então vamos determinar para qual intervalo $p\le n$ não temos primos. Isto é, tomamos $k\le 1$. A construção \textit{ad hoc} de tal intervalo $k\in (2/3, 1]$ é mais esclarecedora do que uma demonstração direta desse fato -- a ideia é \textit{impor} a igualdade $\val_p(B_n)= 0$ assumindo hipóteses adicionais conforme necessário, e o intervalo surge naturalmente.
+\vs
+
+A fim de verificar quando $\val_p(B_n)=0$, podemos impor que $p^2>2n>n$. A ideia por trás dessa condição é que, neste caso, $\log_p(2n)< 2$, de modo que a soma que descreve $\val_p(B_n)$ possui apenas o primeiro termo $\val_p(B_n) = \floor{\frac{2n}{p}}-2\floor{\frac{n}{p}}$, pois toda potência maior de $p$ faz as funções piso se anularem. Em particular, para satisfazer a desigualdade $p^2>2n$, reescrevemo-la em termos de $p=nk$, o que é equivalente a $k>2/n$. Como $k\le 1$, precisamos de $n\ge 3$ e $k>2/3$ (que sempre satisfaz a desigualdade).
+\vs
+
+Agora, dado que $2/3<k\le 1$, podemos reescrever a valoração $p$-ádica em termos de $k$, de modo que $\val_p(B_n)=\floor{2\frac 1k}-2\floor{\frac 1k}$. Pela Proposição \ref{prop:difference_floor}, temos $\val_p(B_n)=\floor{2\frac1k}-2\floor{\frac1k}= 0$ se e somente se $\{\frac1k\}<1/2$. Como $2/3<k\le 1$, temos $1\le \frac1k<3/2 = 1{,}5$. Em particular, $\{\frac 1k\}\in [0,0{,}5)$ e, portanto, a desigualdade sobre a parte fracionária é satisfeita. Portanto, para todo primo $p$ tal que $\frac{2n}3<p\le n$, segue que $\val_p(B_n) = 0$, como desejado.
+\end{proof}
+\vs
+
+Podemos agora começar a nossa busca pelo limite superior. Podemos fazer uma estimativa bem simplificada como segue:
+
+\begin{lemma} \label{lemma:upper_bound_bn}
+    Seja $\beta(n)$ o produto de todos os primos $p$ tais que $n<p<2n$. Dado $n\ge 5$, temos o seguinte limite superior para $B_n$: 
+
+    \[B_n\le \beta(n)\cdot \frac{P(2n/3)}{P(\sqrt{2n})}\cdot  (2n)^{\pi(\sqrt{2n})}.\]
+
+    Em particular, se o Postulado de Bertrand for falso, então existe algum $n\ge 5$ tal que $B_n\le (2n)^{\sqrt{2n}}P(2n/3)$.
+\end{lemma}\vs
+
+\begin{proof}
+Este lema é praticamente uma combinação de todos os fatos anteriores. Começamos com a identidade óbvia $B_n = \prod\limits_{\substack{p\text{ primo}\\p\mid B_n}} p^{\vv_p(B_n)}$, e então dividimos o conjunto de divisores primos de $B_n$ em duas classes: primos $2n>p >n$ e $p \le n$. Essas classes são exaustivas, já que o Lema \ref{lemma:prime_factors_are_less_than_two_n} garante que $p<2n$.\vs
+
+Para a primeira, note que como $n\ge 5$, temos $p>n> \sqrt{2n}$, logo $\vv_p(B_n)\le 1$. Portanto $\prod\limits_{\substack{p\text{ primo }\\n<p<2n}}p^{\vv_p(B_n)}\le \prod\limits_{\substack{p\text{ primo }\\n<p<2n}}p\,\stackrel{\textrm{def}}{=}\, \beta(n)$.
+
+Para a segunda, usamos o Lema \ref{lemma:threshold_no_primes_in_bn} para considerar apenas primos $\le \frac{2n}{3}$. Podemos dividir esse conjunto em mais duas classes: primos $\sqrt{2n}<p\le \frac{2n}{3}$\footnote{A desigualdade implícita $\frac{2n}{3}>\sqrt{2n}$ é a razão pela qual a hipótese enigmática $n\ge 5$ aparece.} e primos $p\le \sqrt{2n}$. Aqui, fazemos estimativas usando o Lema \ref{lemma:inequality_factors_bn}:
+
+\begin{enumerate}
+    \item Para a primeira, usamos que $\prod\limits_{\substack{p\text{ primo }\\ \sqrt{2n}<p \le 2n/3}} p^{\val_p(B_n)}\le \prod\limits_{\substack{p\text{ primo }\\ \sqrt{2n}<p \le 2n/3}} p = \frac{P(2n/3)}{P(\sqrt{2n})}$.
+    \item Para a segunda, usamos que $\prod\limits_{\substack{p\text{ primo }\\p \le \sqrt{2n}}} p^{\val_p(B_n)}\le\prod\limits_{\substack{p\text{ primo }\\p \le \sqrt{2n}}}2n = \underbrace{(2n)\cdots (2n)}_{\pi(\sqrt{2n})\text{ vezes}} = (2n)^{\pi(\sqrt{2n})}$.
+\end{enumerate}
+
+Juntando tudo, temos 
+    \begin{align*}
+        B_n &= \prod\limits_{\substack{p\text{ primo }\\n<p<2n}}p^{\vv_p(B_n)}\cdot \prod\limits_{\substack{p\text{ primo }\\ \sqrt{2n}<p \le 2n/3}} p^{\val_p(B_n)}\cdot\prod_{\substack{p\text{ primo }\\p \le \sqrt{2n}}} p^{\val_p(B_n)}\\
+        &\\
+        &\le \beta(n)\cdot \frac{P(2n/3)}{P(\sqrt{2n})}\cdot  (2n)^{\pi(\sqrt{2n})}.
+    \end{align*}
+    
+    Para a nossa última afirmação, podemos usar uma estimativa simples: como obviamente $\pi(\sqrt{2n})\le \floor{\sqrt{2n}}\le \sqrt{2n}$ e $ \frac{P(2n/3)}{P(\sqrt{2n})}\le P(2n/3)$, obtemos que $B_n \le \beta(n)\cdot (2n)^{\sqrt{2n}}P(2n/3)$. Se o Postulado de Bertrand for falso, então $\beta(n)=1$ e o resultado segue.
+\end{proof}\vs
+
+
+O último ingrediente é uma maneira mais conveniente de limitar $P(x)$. Provamos o seguinte lema:
+ 
+\begin{lemma} \label{lemma:bound_primorial}
+    Seja $x\ge 1$. Então o primorial $P(x)$ satisfaz $P(x)< 4^{x}.$
+\end{lemma}
+\begin{proof}
+    Claramente, é suficiente provar que a afirmação vale para $x\in\mathbb N$, pois para um $x\in \mathbb R$ geral temos $P(x)=P(\floor x)< 4^{\floor x}\le 4^x$.
+
+    A afirmação vale para $x =1$ e $x =2$; prosseguimos por indução para $x \ge 3$. Se $x$ é par, então claramente $x$ não é primo; portanto $P(x) = P(x-1) < 4^{x-1}<4^x$, sendo este o caso mais simples. Se $x = 2n+1$ é ímpar, temos trabalho a fazer, pois a estimativa óbvia $P(2n+1)\le (2n+1)P(2n)$ não ajudará em nada.
+    \vs
+    
+    Dividimos os fatores primos de $P(2n+1)$ nos intervalos $1\le p\le n+1$ e $n+1< p\le 2n+1$ e usamos, mais uma vez, números binomiais. Note que se $2n+1\ge p>n+1$, então $p$ é certamente um fator de $\binom{2n+1}{n}$, já que $p\mid (2n+1)! = \binom{2n+1}{n}n!(n+1)!$, mas $p\nmid n!, (n+1)!$. Logo o produto desses fatores também divide\footnote{Aqui estamos usando o fato de que primos distintos são primos entre si. Logo $\operatorname{mmc}(p_1,\ldots,p_\ell)=p_1\cdots p_\ell.$} $\binom{2n+1}{n}$, e, em particular, $\prod\limits_{\substack{p\text{ primo} \\ n+1<p\le 2n+1}}p\le \binom{2n+1}{n}\le \frac1{2n+2}2^{2n+1}=\frac1{n+1}4^n<4^n.$ Para o intervalo $1\le p\le n+1$, usamos simplesmente indução forte: $P(n+1)< 4^{n+1}$, fornecendo $P(2n+1)< 4^{n+1}\cdot 4^n= 4^{2n+1}$, como desejado.
+
+
+\end{proof}
+\vs
+
+\subsection{Cozinhando o Prato Principal}
+
+Podemos agora \textit{finalmente} provar o Postulado de Bertrand:
+
+\begin{theorem}
+    Para todo $n\ge 2$, existe um número primo $p$ tal que $n<p<2n$.
+\end{theorem}
+\vs
+
+\begin{proof}
+    Para $n =2, 3, 4$, sabemos que a afirmação é verdadeira por inspeção. Portanto podemos tomar $n\ge 5$. Agora, visando uma contradição, suponha que o Postulado de Bertrand seja falso.
+
+    Neste caso, segue do Lema \ref{lemma:upper_bound_bn} e do Lema \ref{lemma:bound_primorial} que, para algum $n\ge 5$, temos $B_n\le4^{2n/3}(2n)^{\sqrt{2n}}$. Além disso, pelo Lema \ref{lemma:lower_bound_bn}, temos $B_n\ge \frac{4^n}{2n+1}$. Combinando essas duas desigualdades, obtemos que tal $n$ deve satisfazer
+    
+    \[
+    4^{n/3}
+    <
+    (2n+1)(2n)^{\sqrt{2n}}.
+    \]
+
+    Afirmamos que isso só pode ocorrer para $n< 4096=4^{12}$. Esse número não tem uma relevância especial -- a ideia aqui é que, assintoticamente, essa desigualdade não pode se manter, de modo que há apenas finitos candidatos para os quais o Postulado de Bertrand é possivelmente falso. Essa escolha de $4096$ deve-se simplesmente ao fato de que $\log_2(4096)=12$ é um número grande o suficiente para fazer estimativas fáceis para as desigualdades.
+    
+    \begin{remark}
+    A apresentação usual para este fato utiliza o limite ótimo $n<427$, obtido por meios computacionais. O panorama geral, porém, é o mesmo. Para evitar o uso de fatos explícitos do cálculo diferencial e integral, usamos muitas desigualdades sabidamente deselegantes; nosso objetivo é manter o conteúdo da demonstração acessível, por exemplo, a estudantes de olimpíadas de matemática do ensino médio. Os únicos fatos que usamos sobre logaritmos são a sua definição como inverso das exponenciais (e consequências, como teoremas de mudança de base) e a sua monotonicidade.
+    \end{remark}
+    \vs
+    
+    De fato, tomando logaritmos na base 4, a desigualdade é equivalente a  
+
+    \[n < 3\log_4(2n+1)+3\sqrt{2}\cdot\sqrt{n}\log_4(2n).\]
+
+    Ou, em outros termos, usando $\log_4(x)=\frac12 \log_2(x)$, que a função 
+    \[
+    g(n) = n - \frac{3}{2}\log_2(2n+1) - \frac{3\sqrt{2}}{2}\sqrt{n}\log_2(2n)
+    \]
+    satisfaz $g(n) < 0$. Afirmamos que para todo $n\ge 4096$, a desigualdade \textit{inversa} vale: $g(n)>0$. Isto é, o Postulado de Bertrand \textit{não pode} ser falso para $n\ge 4096$. Em particular, qualquer possível contraexemplo está em $5\le n<4096$.\vs
+
+    
+    Começamos notando o limite numérico $\frac{3\sqrt{2}}{2} = \sqrt{\frac{9}{2}} < \frac{9}{4}$, já que $4\sqrt{\frac92}=\sqrt{8\cdot 9}<\sqrt{9^2}=9$. Usamos então dois lemas para as estimativas:
+    
+    \begin{lemma}
+    Para todo $x \ge 1$, $\log_2(x) < 2\sqrt{x}$.
+    \end{lemma}
+    \begin{remark}
+        Com cálculo: $f(x)= 2\sqrt{x}-\log_2(x)$ é tal que $f(1)=2$ e $f'(x)=1/\sqrt{x}-1/(x\ln 2)=\frac{1}{\sqrt{x}}(1-\frac{1}{\ln 2\cdot \sqrt{x}})$, que é sempre positivo pois $\ln2\cdot \sqrt{x}\ge \ln 2\ge 1$, tornando a diferença entre colchetes sempre positiva e $f(x)\ge 2>0\ \forall x\ge 1$.
+    \end{remark}
+    \begin{proof}
+    Começamos provando a desigualdade auxiliar $2^u >u$ para $u$ positivo: primeiro, é fácil mostrar que ela vale para $u$ natural por indução, já que $2^{u+1}= 2\cdot 2^u>2u>u+1$ para $u\ge 2$. Vale para $0\le u<1$ pois $2^u\ge 1>u$. A mesma ideia pode ser usada para prová-la nos intervalos $1\le u<2$, $2\le u<4$ e $4\le u<16$. Agora, se $u>16$, usamos que $2^{u/2}\ge 2^{\floor{\frac{u}{2}}}\ge \floor{\frac u2}>\frac{u}{2}-1$ e elevamos ao quadrado para obter $2^u> (\frac{u}{2}-1)^2$, e como $(u-2)^2-4u = u^2 - 8u +4 = u(u-8)+4$, com $u-8\ge 8>1$, segue que $(u-2)^2-4u>0\implies (\frac{u}2-1)^2>u$, e a desigualdade geral segue.\footnote{Isso poderia ser feito de maneira muito mais fácil se o leitor estiver ciente da \textit{desigualdade de Bernoulli} $(1+t)^u\ge 1+tu$, para $t = 1$.}
+    
+    Assim, definindo $u = \frac{1}{2}\log_2(x) \ge 0$, o resultado segue de
+    \[
+    \sqrt{x}=2^{\log_2(\sqrt{x})}=2^{\frac{1}{2}\log_2(x)} > \frac{1}{2}\log_2(x).
+    \]
+    \end{proof}
+
+    Agora fazemos a segunda estimativa.
+    \begin{lemma}
+    Para todo $n \ge 4096$, $\log_2(n) \le \frac{7}{32}\sqrt{n}$.
+    \end{lemma}
+    \begin{proof}
+    Como $n \ge 4096 = 2^{12}=64^2$, escrevemos $n = 4096k$ com $k \ge 1$, de modo que $\sqrt{n} = 64\sqrt{k}$. Pelo lema anterior,
+    \[
+    \log_2(n) = \log_2(4096k) = 12 + \log_2(k) \le 12 + 2\sqrt{k}.
+    \]
+    Como $k \ge 1$, $12 \le 12\sqrt{k}$, o que fornece:
+    \[
+    12 + 2\sqrt{k} \le 14\sqrt{k} = 14 \cdot \left(\frac{\sqrt{n}}{64}\right) = \frac{7}{32}\sqrt{n}.
+    \]
+    \end{proof}
+    
+    Podemos então obter as desigualdades logarítmicas
+    \begin{align*}
+    \log_2(2n+1) &< \log_2(4n) = 2 + \log_2(n) \le 2 + \frac{7}{32}\sqrt{n}, \\
+    \log_2(2n) &= 1 + \log_2(n) \le 1 + \frac{7}{32}\sqrt{n}.
+    \end{align*}
+    
+    Substituindo esses limites juntamente com $\frac{3\sqrt{2}}{2} < \frac{9}{4}$ em $g(n)$ e simplificando toda a álgebra, descobre-se que
+    \begin{align*}
+    g(n) &> \frac{65}{128}n - \frac{165}{64}\sqrt{n} - 3.
+    \end{align*}
+
+    Pensando no lado direito como um polinômio em $t:= \sqrt{n}\ge 64$, precisamos apenas determinar quando $65t^2-330t+384>0$. Manipulando essa expressão, a desigualdade é equivalente a $65\left(t-\frac{33}{13}\right)^2>\frac{153}{13}$; aqui $\frac{33}{13}=2+\frac{7}{13}$ e $\frac{153}{13}=11+\frac{10}{13}$, logo $65(t-\frac{33}{13})^2>65(t-3)^2>65\cdot 61^2>65>\frac{153}{13}$, tornando assim $\frac{65}{128}n - \frac{165}{64}\sqrt{n} - 3>0$ para todo $n\ge 4096$ e concluindo a afirmação.
+    \vs
+
+    Para finalizar a demonstração, precisamos apenas verificar que para $5\le n\le 4096$, existe sempre um primo entre $n$ e $2n$. Mas isso é fácil de fazer por inspeção: usando um banco de dados de primos conhecido, podemos listar os primos da seguinte forma: tomamos $p_1=2$ e definimos $p_{i+1}$ como o maior primo tal que $p_i<p< 2p_i$,\footnote{O qual sabemos que existe não por um argumento matemático, mas simplesmente por inspeção: comece com $5$, vá para $10$ e volte até encontrar um primo -- que é $7$. A partir de $7$, vá para $14$ e encontre $13$, etc.} obtendo a lista de primos $p_i, 1\le i\le 12$,
+
+    $$
+    5,\ 7,\ 13,\ 23,\ 43,\ 83,\ 163,\ 317,\ 631,\ 1259,\ 2503,\ 5003.
+    $$
+
+    Agora tome qualquer $5\le n\le 4096<5003=p_{12}$. Tome $p_i$ como o maior primo $\le n$ na lista (portanto $p_i<p_{12}\implies i<12$). Isso significa que $p_i\le n<p_{i+1}$ por construção. Como construímos a lista anterior de tal modo que $p_{i+1}<2p_i$, e $p_i\le n\implies 2p_i\le 2n$ por nossa escolha de $p_i\le n$ maximal, a cadeia de desigualdades $p_i\le n<p_{i+1}<2p_i\le 2n$ implica que $n<p_{i+1}<2n$. Portanto $p_{i+1}$ é um primo estritamente entre $n$ e $2n$, completando a demonstração do Postulado de Bertrand para os casos restantes.
+\end{proof}
+
+
+\bibliographystyle{alphaurl}
+\bibliography{bertrand}
+
+\end{document}

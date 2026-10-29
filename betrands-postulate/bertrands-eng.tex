@@ -1,0 +1,481 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{url} % for \url command
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{notation}[theorem]{Notation}
+
+
+\newcommand{\floor}[1]{\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1 \right\rceil}
+\newcommand{\vs}{\vspace{10px}}
+
+\DeclareMathOperator{\val}{v}
+\DeclareMathOperator{\vv}{v}
+
+\title{\textbf{A Self-Contained Proof of Bertrand's Postulate}}
+\author{Lucas Henrique Martins da Silva}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We give a self-contained presentation of Erd\H{o}s proof of Bertrand's postulate \cite{Erdos1932Tschebyschef}. The argument is based on the
+factorization of the central binomial coefficient
+$B_n:=\binom{2n}{n}$. The binomial theorem gives a
+lower bound for this coefficient, while elementary properties of prime
+factorizations give an upper bound under the assumption that there is no
+prime between $n$ and $2n$. The two bounds obtained have incompatible exponential growth, giving a contradiction. The proof is completely elementary and can be presented to school-age students.
+\end{abstract}
+
+
+\section{Introduction}
+Our object of interest in this paper is the following classical theorem:
+
+\begin{theorem}[Bertrand's Postulate]
+    For every integer $n\geq 2$, there is a prime $p$ strictly between $n$ and $2n$; that is, $n<p<2n$. 
+\end{theorem}
+
+Equivalently, one can state Bertrand's Postulate in terms of the well-known prime counting function  
+$\pi(x):=\#\{p\in \mathbb N: p\le x \text{ and } p \text{ is prime}\}$,
+for which the statement becomes \[\forall x\ge 2:\quad \pi(x)-\pi\left(\frac x2\right)\ge 1.\]
+\vs 
+
+
+The main ideas of our proof are due to Erd\H{o}s \cite{Erdos1932Tschebyschef}; in fact, the modifications and observations we make are to guarantee that the scope of used facts remains elementary.
+
+Its main feature is that it does not
+use machinery from analytic number theory, opposed to Chebyshev's proof. Instead, it encodes information about
+primes into a single integer whose size can be estimated in two independent
+ways. We first give an outline of the proof, exploring the main ideas.
+\vs
+
+ 
+The integer we use is the central binomial coefficient \[B_n:=\binom{2n}{n}.\]
+There are two reasons for this choice:
+
+\begin{enumerate}
+    \item First, its full form in terms of factorials
+\[
+B_n=\frac{(2n)!}{(n!)^2}
+\]
+makes it possible to determine quite precisely which primes can occur in
+its factorization and with what multiplicity; since $(2n)!$ is divided by the square of $n!$, if such a prime $n < p < 2n$ exists, then it is certainly a factor of $B_n$, as $p$ cannot appear in the product $n!$. 
+
+\item Second, the binomial theorem shows that
+$B_n$ necessarily large, since $B_n\geq \frac{4^n}{2n+1}$, so we have $B_n\approx 4^n$.\footnote{In fact, Stirling's approximation shows that $B_n \sim \frac{4^n}{\sqrt{n\pi}}$ asymptotically.} imposes bounds on the primes (and their exponents) that can appear on the factorization of $B_n$. If there were no primes $n <p<2n$, then $B_n$ certainly has only ``small'' primes in its factorization, from which follows the contradiction.
+\end{enumerate}
+
+
+We'll produce the two incompatible bounds for $B_n$. One is elementary and actually holds, which is the one given by the binomial theory. The other one, consequence of assuming that Bertrand's Postulate is false, is based on the clever idea that exponents of primes in $n!$ are easy to compute through the well-known \textit{Legendre's Formula}. Using this idea and a very useful inequality about the floor function, one can bound $B_n$ (or rather its prime factors) using two steps:
+\begin{enumerate}
+    \item first showing that every prime that is \textit{ big enough} compared to $n$ ($p >\sqrt{2n}$) can appear with exponent \textit{at most} one in the prime factorization of $B_n$, and then
+    \item showing that there can be no \textit{very big primes} in the factorization of $B_n$ (explicitly, $\frac{2n}3<p\le n$).
+\end{enumerate}
+
+Combining the previous ideas, we are able to give rough bounds on the contributions of prime powers $p^k$ in $B_n=\prod p_i^{k_i}$ if we pick primes $p \le n$: the contributions for small primes ($p\le \sqrt{2n}$) can be at most $(2n)^{\sqrt{2n}}$, and the contributions for big primes can be at most $P(2n/3)$, where $P(x)$ is the \textit{primorial} function. 
+\vs
+
+If Bertrand's Postulate is false, these are all the factors $B_n$ can have; aiming for contradiction, we finally use the elementary estimate $P(x)< 4^x$ for the primorial, to find
+
+\[\frac{4^n}{2n+1}\le B_n<4^{2n/3}(2n)^{\sqrt{2n}},\]
+
+and we conclude the proof by showing through elementary means that this inequality does not hold for $n$ sufficiently big ($n\ge 4096$), while case-checking for the finitely many remaining cases. We also give an \textit{idea} of why such bound shouldn't hold, which is simple asymptotic analysis. Note that this is more elaborate than our actual approach, which is elementary -- this is meant to show \textit{how} would someone infer that these bounds are asymptotically distinct.
+\vs
+
+First, note that it would imply that $4^{n/3}< (2n+1)(2n)^{\sqrt{2n}}$; passing all the exponentials to natural base and using that $2n+1 \approx 2n$,\footnote{Formally, for those who know $O$-notation: $2n+1=2n(1+o(1))$.} one has $\frac{\ln4}{3}n\le (\sqrt{2n}+1)\ln(2n)$. The point here is that $\ln(t)$ grows slower than $t^\alpha$ for every positive $\alpha$, so, dividing by $n$ would imply that $(\sqrt{2}+1/\sqrt{n})\frac{\ln(2n)}{\sqrt{n}}\ge \ln4/3$. The first factor converges to a constant when $n\to \infty$ and the second factor goes to $0$, so the whole expression in the LHS goes to zero. In particular, it cannot be greater than a positive number for all $n$.
+
+This means the inequality obtained by \textit{rejecting} Bertrand's Postulate can only hold for finitely many $n\le N_0$. In particular, Bertrand's Postulate could only fail for these finitely many cases, and we can then check these explicitly.
+
+\vs
+
+In order to give a self-contained proof, we first present basic the notation, basic definitions and tools we'll use. The reader aware about the main facts of standard mathematical functions might skip directly to the proof. We assume the reader knows basic number theory, aside from summation and product notations etc.
+
+\section{Preliminaries}
+Let us recall basic definitions and facts from number theory. 
+
+\vs
+\subsection{Definitions and Notation}
+
+\begin{definition}
+    Let $p\in \mathbb Z$ be prime and $x\in \mathbb R$ be an arbitrary real number.
+    
+    We define the following functions:
+    \begin{itemize}
+        \item the floor function $\floor{-}$, given by $x\in \mathbb R\mapsto n\in \mathbb Z$, where $n$ is the unique integer such that $n\le x<n+1$;
+          \item the ceiling function $\ceil{-}$, given by $x\in \mathbb R\mapsto n\in \mathbb Z$, where $n$ is the unique integer such that $n-1<x\le n$;
+        \item the $p$-adic valuation function $\val_p$, given by $n\in \mathbb Z\mapsto e\in\mathbb Z_{\ge 0}$, where $e$ the exponent of $p$ the prime factorization of $n$ -- that is, for $n=p^e n'$, $p\nmid n'$, we have $\val_p(n):= e$;
+        \item the primorial function $P$, given by $x\in \mathbb R \mapsto \prod\limits_{\substack{p\text{ prime} \\ p\le x}}p\in \mathbb Z_{\ge 0}$, with the convention $P(x)=1$ for $x<2$.\footnote{This notation is not standard.}
+    \end{itemize}
+\end{definition}
+
+We recall that $\vv_p$ has the \textbf{logarithmic property}: for any two nonzero integers $a,b\in \mathbb Z$, it holds that $\vv_p(ab) = \vv_p(a)+\vv_p(b)$. From this property, it clearly follows that if $b\mid a$, then $\val_p(\frac{a}{b})= \val_p(a)-\val_p(b)$.\vs
+
+For completeness, we also recall that given $n\in \mathbb Z_{\ge 0}$ and $m\in \mathbb Z$ with $0\le m\le n$, the binomial coefficients are defined as $\binom{n}{m}:= \frac{n!}{m!(n-m)!}$, which are always positive integers. We assume the reader knows basic facts related to factorials and binomials; in particular, we'll actively use the binomial theorem.
+\vs
+
+\begin{notation}
+    Given a finite set $S$, we denote its cardinality (that is, its number of elements) by $\#S$.  Given a positive integer $n\in\mathbb Z_{>0}$, we'll denote the set $\{1,\ldots, n\}$ by $[n]$. 
+\end{notation}
+
+\vs
+\subsection{Properties of Binomials}
+
+Now, we prove a basic fact regarding the behavior of binomials. Informally, the following fact states that ``the numbers in a row of Pascal's triangle increase up to the middle, then start to decrease''. 
+
+\begin{lemma} \label{lemma:binomial_monotonicity}
+    Let $m\ge 1$ be a fixed natural number let $b_k:= \binom{m}{k}$ denote binomial coefficients for $0\le k\le n$. Then $b_k$ is a strictly increasing for $0\le k \le \floor{\frac m2}$, stable at $k=\floor{\frac m2}, \ceil{\frac m2}$ and strictly decreasing for $\ceil{\frac m2}\le k\le n$.
+
+    As a corollary, $b_k$ attains maximum for $k= \floor{\frac m2}, \ceil{\frac m2}$, and these two values correspond to a single $k$ if and only if $m = 2n$; the greatest binomial coefficient in this case is for $k = n$, being $\binom{2n}{n}$.
+\end{lemma}
+\vs
+
+\begin{proof}
+    To prove these claims, we use the obvious observation that $b_{k+1}$ is respectively greater, equal or less than $b_k$ iff $r_k:=b_{k+1}/b_k$ is greater, equal or less than $1$. Writing $r_k$ explicitly gives 
+
+    \begin{align*}
+        r_k &= \frac{\binom{m}{k+1}}{\binom{m}{k}}\\
+        &= \frac{\frac{m!}{(k+1)!(m-k-1)!}}{\frac{m!}{k!(m-k)!}}\\
+        &= \frac{k!}{(k+1)!}\cdot \frac{(m-k)!}{(m-k-1)!}\\
+        &= \frac{m-k}{k+1}.
+    \end{align*}
+    
+    It's clear that $r_k >1$ if and only if $\frac{m-1}{2}> k$, and the cases $r_k=1$ and $r_k<1$ are completely analogous. For $r_k>1$, one might write the inequality $k<\frac{m-1}{2}$ in terms of $m=2n+1$ and $m= 2n$, which yields $k<n\iff k\le n-1$ and $k<n-\frac 12\iff k\le n-1$, while $n = \floor{\frac m2}$ in both cases, thus giving $r_k>1\iff k\le \floor{\frac m2}-1$; that is, $b_k$ is increasing for $k=0,\ldots, \floor{\frac m2}$.
+    
+    A similar reasoning for inequalities using ceiling yields $r_k>1\iff k\ge \ceil{\frac m2}$, and the equality case (that is, $b_k=b_{k+1}$) can only happen for $k= \frac{m-1}{2}$, that is, $m = 2n+1$ and $\binom{2n+1}{n}=\binom{2n+1}{n+1}$. For even $m=2n$, the sequence increases up to $k=\floor{\frac m2}=n$ and then decreases, making $\binom{2n}{n}$ the biggest coefficient. 
+\end{proof}\vs
+
+We also give a proof of Legendre's Formula, which tells how to compute the exponent of a given prime number in a factorial.
+
+\begin{proposition}[Legendre's Formula] \label{prop:legendres_formula}
+    Let $n\ge 1$ be a natural number and $p$ be a prime. Then $\val_p(n!) =\sum\limits_{k\ge 1}\left\lfloor \frac{n}{p^k}\right \rfloor.$
+\end{proposition}
+\vs
+\begin{proof}
+    Before starting the proof, we need to check if such an expression even makes sense, since, as it is, there might be a meaningless infinite sum\footnote{\textit{A divergent series.}}. In fact, it does make sense: for any integer $k> \log_p n$, it follows that $p^k > n\implies0< \frac{n}{p^k}<1\implies \floor{\frac{n}{p^k}}=0$. That is, this infinite sum is actually finite, for $k$ ranging between $1$ and $r:=\floor{\log_p n}$ -- the greatest integer such that $p^r \le n$.
+    \vs
+
+    Our strategy we'll be based on splitting the factors $\{1,\ldots, n\}$ of $n!$ according to their $p$-adic valuation. First, for $k=0, ..., r$, we define the sets $P_k:= \{1\le m\le n: \vv_p(m) = k\}$; that is, the subset of numbers between $1$ and $n$ that have $p$-adic valuation equal to $k$. What we claim is that every number in $\{1,\ldots, n\}$ belongs to one and exactly one of the sets $P_k$, which is to say that $[n]= \bigsqcup\limits_{k=0}^rP_k$. In fact, every valuation must be $\le r$: if there was $m\le n$ with $\val_p(m)> r$, then  $p^{\val_p(m)}>n$ by maximality of $r$, and, therefore, $m\ge p^{\val_p(m)}>n$, a contradiction. So we certainly have $[n]=\bigcup\limits_{k=0}^r P_k$, and it's clear that such union is disjoint.
+
+    Now, by the logarithmic property of valuations, it's clear that that $n! = \prod\limits_{m\in [n]}m\implies \val_p(n!) = \sum\limits_{m\in [n]}\val_p(m)=\sum\limits_{m\in \bigsqcup_{k=0}^rP_k} \val_p(m)$, and therefore 
+    
+    \begin{align*}
+        \val_p(n!)&=\sum\limits_{k=0}^r\sum\limits_{m\in P_k}\val_p(m) \\
+        &= \sum_{k=0}^r\sum_{m\in P_k}k \tag*{($m\in P_k\implies \val_p(m)=k$)}\\
+        &= \sum_{k=0}^r k\cdot \#P_k.
+    \end{align*}
+    \vs
+    
+    Now, to compute $\#P_k$, we use the following strategy: we can count how many numbers have valuation $\ge k$ and how many have valuations $\ge k+1$; the difference between them is precisely how many numbers have valuation exactly $k$. That is, we'll find the cardinality of $P'_k = \{1\le m\le n: \val_p(m)\ge k\}= \bigsqcup\limits_{i=k}^rP_k$, and using that $P_k= P'_k\setminus P'_{k+1}$ with $P'_k\supseteq P'_{k+1}$, we have $\#P_k = \#P'_k - \#P'_{k+1}$ for every $1\le k\le r$.
+    
+
+    We claim that $\#P'_k = \left \lfloor \frac{n}{p^k}\right \rfloor$. In fact, for every $1\le q\le  \left \lfloor \frac{n}{p^k}\right \rfloor$, the number $m= p^k\left \lfloor \frac{n}{p^k}\right \rfloor$ is in $P'_k$, and for every $m\in P'_k$, the number $\frac{m}{p^k}$ is an integer $\le \frac{n}{p^k}$, giving a bijection $P'_k \leftrightarrow \left\{1,\ldots, \left \lfloor \frac{n}{p^k}\right \rfloor\right\}$ for every $1\le k\le r$, proving our claim. The expression for $\#P'_k$ also makes sense for $k\ge r+1$, since $P'_k=\emptyset$ and $\floor{\frac{n}{p^{r+1}}}=0$.
+
+    \vs
+    
+    Combining these these facts, we can now compute $\val_p(n!)$. We have:
+
+    \begin{align*}
+        \val_p(n!) &= \sum\limits_{k=0}^r k\cdot \#P_k\\
+        &= \sum\limits_{k=0}^rk\left( \#P_k'- \#P'_{k+1}\right)\\
+        &= \sum\limits_{k=0}^r k\cdot \#P'_k - \sum\limits_{k=0}^r k\cdot \#P'_{k+1}\\
+        &= \sum\limits_{k=0}^r k\cdot \#P'_k - \sum\limits_{k=1}^{r+1} (k-1)\cdot \#P'_{k}\\
+        &= \sum_{k=1}^r (k-(k-1))\cdot \#P'_k\\
+        &= \sum_{k=1}^r \left \lfloor \frac{n}{p^k} \right \rfloor,
+    \end{align*}
+
+    where we have shifted indices for the summation $\sum\limits_{k=0}^r k|P'_{k+1}|$ and used that $k|P'_k|=0$ for $k = 0$ and $(k-1)|P'_k| = 0$ for $k =r$.
+\end{proof}
+
+\vs
+\subsection{A Property on $\floor{mx}-m\floor{x}$}
+
+We prove a very easy (yet powerful) property regarding the floor function.
+\vs
+
+\begin{proposition} \label{prop:difference_floor}
+    For every $x\in \mathbb R$ and every $m\in \mathbb Z_{>0}$, the difference $d_m(x):=\floor{mx}-m\floor{x}$ is a nonnegative integer strictly less than $m$. That is, $d_m(x)\in \{0,1,\ldots, m-1\}$. 
+    
+    Furthermore, denoting by $\{x\}:= x-\floor{x}$ the fractional part of $x$, given a fixed $k\in \{0,\ldots, m-1\}$, one has \[d_m(x)=k\in \{0,\ldots, m-1\}\iff \frac{k}{m}\le \{x\}<\frac{k+1}{m}.\]
+\end{proposition}\vs
+
+\begin{proof}
+    Let $n:=\floor{x}$, so that $n\le x<n+1$. Then $mn\le mx  < mn+m$, so $\floor{mx}\le mx<mn+m\implies \floor{mx}\le mn+m-1$. Therefore $mn-mn\le \floor{mx}-mn\le mn+m-1-mn$; i.e. $0\le \floor{mx}-m\floor{x}\le m-1$.\vspace{5px}
+
+    Now let $k =\floor{mx}-m\floor{x}\in \{0,1,\ldots, m-1\}$. Using the definition of floor for $\floor{mx}=k+m\floor{x}$, this equality holds if and only if  $m\floor x+k\le mx< m\floor x+k+1$, so $\floor x+\frac{k}{m}\le x< \floor x+\frac{k+1}{m}$, and by subtracting $\floor x$ our claim follows.
+\end{proof}\vs
+
+This was the last elementary fact we need to prove Bertrand's Postulate, so we're ready to go.
+
+
+\section{Erd\H{o}s' Proof of Bertrand's Postulate}
+\subsection{Assembling Ingredients}
+
+We begin the proof by relating the prime factorization of $B_n$ to Bertrand's Postulate; namely, we have the following number-theoretic lemma:
+\begin{lemma} \label{lemma:prime_factors_are_less_than_two_n}
+    Let $p$ be a prime such that $p\mid B_n= \binom{2n}{n}$, $n\ge 2$. Then $p < 2n$.
+
+    In particular, if Bertrand's Postulate is false, then there is some $n\ge 2$ for which every factor $p$ of $B_n$ is $p\le n$.
+\end{lemma}
+\begin{proof}
+    Suppose that $p\mid B_n$. It follows that $p\mid (2n)! = (n!)^2B_n$. By Euclid's lemma, since $p$ divides the product of $1,\ldots, 2n$, then $p$ must divide one of them; that is, there exists some $m\le 2n$ such that $p\mid m$. In particular, this implies that $p\le m\le 2n$. Since the equality $p=2n$ is clearly impossible as $2n$ not prime for $n\ge 2$, it follows that $p<2n$.
+    
+    We then get that if Bertrand's Postulate is false, then there exists some $n$ for which every prime $p<2n$ must also satisfy $p\le n$ (that is, $n<p<2n$ is never satisfied). So in particular, for such $n$, every prime factor of $B_n$ is less or equal to $n$.
+\end{proof}\vs
+
+
+We now begin the estimates for $B_n$, starting with the elementary lower bound for the central binomial coefficient:
+
+\begin{lemma} \label{lemma:lower_bound_bn}
+For every integer $n\geq 1$,
+\[
+B_n:=\binom{2n}{n}\geq \frac{4^n}{2n+1}.
+\]
+\end{lemma}
+
+\begin{proof}
+By lemma \ref{lemma:binomial_monotonicity}, $B_n$ is the largest number among $\binom{2n}{k}$, $0\le k\le 2n$. The binomial theorem guarantees that these are precisely the coefficients of $x^k$ in the
+expansion of $(1+x)^{2n}$. Therefore
+\[
+4^n
+=(1+1)^{2n}
+=\sum_{k=0}^{2n}\binom{2n}{k}
+\leq \sum_{k=0}^{2n}B_n = (2n+1)B_n,
+\]
+which gives $B_n\ge \frac{4^n}{2n+1}$, as claimed.
+\end{proof}
+\vs
+
+Given the basic lower bound, we analyze the $p$-adic valuations of $B_n$. If $p$ is any prime, the logarithmic property of $p$-adic valuations implies that that
+
+\begin{align*}
+    \val_p(B_n)&=\val_p\left(\frac{(2n)!}{n!n!}\right)\\
+    &=\val_p((2n)!)-2\val_p(n!).
+\end{align*}
+
+Now, applying Legendre's formula \ref{prop:legendres_formula} for $\val_p(n!)$ and $\val_p((2n)!)$, we have
+\[
+\val_p(B_n)
+=
+\sum_{j\geq1}
+\left(
+\left\lfloor\frac{2n}{p^j}\right\rfloor
+-
+2\left\lfloor\frac{n}{p^j}\right\rfloor
+\right).
+\]
+
+
+The neat part is that each summand in this expression is a difference of form $d_2(x)$ (as in \ref{prop:difference_floor}) for $x=\frac{n}{p^j}$, and we know that, for 
+\[
+\lfloor 2x\rfloor-2\lfloor x\rfloor\in\{0,1\}.
+\]
+
+Consequently, each summand is $\le 1$. From this, we can infer that $\val_p(B_n)\le \sum\limits_{j=1}^r 1= r$, where $r$ is the biggest integer for which $\floor{\frac{2n}{p^r}}\ne 0$; that is, the floor of $\log_p(2n)$. We have just proved the following: 
+
+\begin{lemma}\label{lemma:inequality_factors_bn}
+    Let $B_n = \binom{2n}{n}$ and $p$ be any prime number. Then $\val_p(B_n)\le \log_p(2n)$.
+
+    As a corollary, it follows that:
+
+    \begin{enumerate}
+        \item for every prime $p$, $p^{\vv_p(B_n)}\le 2n$, and
+        \item for $p > \sqrt{2n}$, $\vv_p(B_n)\le 1$ and $p^{\vv_p(B_n)}\le p$.
+    \end{enumerate}
+\end{lemma}
+
+The first claim of the corollary is obvious by our inequality: $\val_p(B_n)\le \log_p(2n)\implies p^{\vv_p(B_n)}\le p^{\log_p(2n)}= 2n$. The second claim follows from the fact that if $p>\sqrt{2n}$, then $1 = \log_p(p) >\frac{1}{2}\log_p(2n)\ge \frac{1}{2}\val_p(B_n)$ which in turn implies that $\val_p(B_n)<2$, so $\val_p(B_n)\le 1$, as desired.
+\vs
+
+The next observation is the heart of the argument. We have shown that possible \textit{big} ($p>\sqrt{2n}$) prime factors of $B_n$ are scarse: when (if!) they show up, it's only once. What we can further show is that for -- relative to $n$ -- even \textit{bigger} primes simply cannot appear:
+
+\begin{lemma} \label{lemma:threshold_no_primes_in_bn}
+If
+\[
+\frac{2n}{3}<p\leq n
+\]
+is prime, then
+\[
+\val_p\!\left(\binom{2n}{n}\right)=0.
+\]
+
+In particular, if $p\le n$ is a prime divisor of $B_n$, then $p\le \frac{2n}3$. 
+\end{lemma}
+
+\begin{proof}
+
+It's natural to think of how big $p$ is \textit{relative} to $n$, so we define $k:= p/n$. We strongly believe that there are primes $n < p < 2n$, so we'll figure what for what range $p\le n$ we have no primes. That is, we take $k\le 1$. The \textit{ad hoc} construction of such interval $k\in (2/3, 1]$ is more clarifying than a straightforward proof of this fact -- the idea is to \textit{impose} the equality $\val_p(B_n)= 0$ taking additional hypotheses as needed, and the interval shows up naturally.
+\vs
+
+In order to check when $\val_p(B_n)=0$, we might impose that $p^2>2n>n$. The idea behind such condition is that, in this case, $\log_p(2n)< 2$, so the sum that describes $\val_p(B_n)$ only has the first tirm $\val_p(B_n) = \floor{\frac{2n}{p}}-2\floor{\frac{n}{p}}$, for every bigger power of $p$ makes the floor functions vanish. In particular, in order to satisfy the inequality $p^2>2n$, we rewrite it in terms of $p=nk$, which is equivalent to $k>2/n$. Since $k\le 1$, we need $n\ge 3$ and $k>2/3$ (which always satisfies the inequality).
+\vs
+
+Now, given that $2/3<k\le 1$, we can rewrite the $p$-adic valuation in terms of $k$, so that $\val_p(B_n)=\floor{2\frac 1k}-2\floor{\frac 1k}$. By \ref{prop:difference_floor}, we have $\val_p(B_n)=\floor{2\frac1k}-2\floor{\frac1k}= 0$ if and only if $\{\frac1k\}<1/2$. Since $2/3<k\le 1$, we have $1\le \frac1k<3/2 = 1.5$. In particular, $\{\frac 1k\}\in [0,0.5)$ and, therefore, the fractional part inequality is satisfied. Therefore, for every prime $p$ such that $\frac{2n}3<p\le n$, it follows that $\val_p(B_n) = 0$, as desired.
+\end{proof}
+\vs
+
+We can now begin our pursuit for the upper bound. We can make a very rough estimate as follows:
+
+\begin{lemma} \label{lemma:upper_bound_bn}
+    Let $\beta(n)$ denote product of all primes $p$ such that $n<p<2n$. Given $n\ge 5$, we have the following upper bound for $B_n$: 
+
+    \[B_n\le \beta(n)\cdot \frac{P(2n/3)}{P(\sqrt{2n})}\cdot  (2n)^{\pi(\sqrt{2n})}.\]
+
+    In particular, if Bertrand's Postulate is false, then there is some $n\ge 5$ such that $B_n\le (2n)^{\sqrt{2n}}P(2n/3)$.
+\end{lemma}\vs
+
+\begin{proof}
+This lemma is pretty much simply a combination of all the previous facts. We start with the obvious identity $B_n = \prod\limits_{\substack{p\text{ prime}\\p\mid B_n}} p^{\vv_p(B_n)}$, and then break the set of prime divisors of $B_n$ into two classes: primes $2n>p >n$ and  $p \le n$. These classes are exhaustive, since \ref{lemma:prime_factors_are_less_than_two_n} guarantees that $p<2n$.\vs
+
+For the former, note that since $n\ge 5$, we have $p>n> \sqrt{2n}$, thus $\vv_p(B_n)\le 1$. Therefore $\prod\limits_{\substack{p\text{ prime }\\n<p<2n}}p^{\vv_p(B_n)}\le \prod\limits_{\substack{p\text{ prime }\\n<p<2n}}p\,\stackrel{\textrm{def}}{=}\, \beta(n)$.
+
+For the latter, we use \ref{lemma:threshold_no_primes_in_bn} to consider only primes $\le \frac{2n}{3}$. We can further break this set into two other classes: primes $\sqrt{2n}<p\le \frac{2n}{3}$\footnote{The implicit inequality $\frac{2n}{3}>\sqrt{2n}$ is why the cryptic $n\ge 5$ hypothesis appears.} and primes $p\le \sqrt{2n}$. Here, we make estimates using \ref{lemma:inequality_factors_bn}:
+
+\begin{enumerate}
+    \item For the former, we use that $\prod\limits_{\substack{p\text{ prime }\\ \sqrt{2n}<p \le 2n/3}} p^{\val_p(B_n)}\le \prod\limits_{\substack{p\text{ prime }\\ \sqrt{2n}<p \le 2n/3}} p = \frac{P(2n/3)}{P(\sqrt{2n})}$.
+    \item For the latter, we use that $\prod\limits_{\substack{p\text{ prime }\\p \le \sqrt{2n}}} p^{\val_p(B_n)}\le\prod\limits_{\substack{p\text{ prime }\\p \le \sqrt{2n}}}2n = \underbrace{(2n)\cdots (2n)}_{\pi(\sqrt{2n})\text{ times}} = (2n)^{\pi(\sqrt{2n})}$.
+\end{enumerate}
+
+Now, putting it all together, we have 
+    \begin{align*}
+        B_n &= \prod\limits_{\substack{p\text{ prime }\\n<p<2n}}p^{\vv_p(B_n)}\cdot \prod\limits_{\substack{p\text{ prime }\\ \sqrt{2n}<p \le 2n/3}} p^{\val_p(B_n)}\cdot\prod_{\substack{p\text{ prime }\\p \le \sqrt{2n}}} p^{\val_p(B_n)}\\
+        &\\
+        &\le \beta(n)\cdot \frac{P(2n/3)}{P(\sqrt{2n})}\cdot  (2n)^{\pi(\sqrt{2n})}.
+    \end{align*}
+    
+    For our last claim, we can use a rough bound: since obviously $\pi(\sqrt{2n})\le \floor{\sqrt{2n}}\le \sqrt{2n}$ and $ \frac{P(2n/3)}{P(\sqrt{2n})}\le P(2n/3)$, we get that $B_n \le \beta(n)\cdot (2n)^{\sqrt{2n}}P(2n/3)$. If Bertrand's Postulate is false, then $\beta(n)=1$ and it follows.
+\end{proof}\vs
+
+
+ The last ingredient is a friendlier way to bound $P(x)$. We prove the following lemma:
+ 
+\begin{lemma} \label{lemma:bound_primorial}
+    Let $x\ge 1$. Then the primorial $P(x)$ satisfies $P(x)< 4^{x}.$
+\end{lemma}
+\begin{proof}
+    Clearly, it's sufficient to prove that the claim holds for $x\in\mathbb N$, since that for general $x\in \mathbb R$ we have  $P(x)=P(\floor x)< 4^{\floor x}\le 4^x$.
+
+    The claim holds for $x =1$ and $x =2$; we proceed by induction for $x \ge 3$. If $x$ is even, then clearly $x$ is not prime; therefore $P(x) = P(x-1) < 4^{x-1}<4^x$, being the simplest case. If $x = 2n+1$ is odd, we have actual work to do, since the obvious estimate $P(2n+1)\le (2n+1)P(2n)$ won't help us at all.
+    \vs
+    
+    We break the prime factors in $P(2n+1)$ into the ranges $1\le p\le n+1$ and $n+1< p\le 2n+1$ and use, once again, binomial numbers. Note that if $2n+1\ge p>n+1$, then $p$ is certainly a factor of $\binom{2n+1}{n}$, as $p|(2n+1)! = \binom{2n+1}{n}n!(n+1)!$ but $p\nmid n!, (n+1)!$. So the product of these factors also divides\footnote{Here, we're using the fact that distinct primes are coprime. So $\operatorname{lcm}(p_1,\ldots,p_\ell)=p_1\cdots p_\ell.$} $\binom{2n+1}{n}$, and, in particular, $\prod\limits_{\substack{p\text{ prime} \\ n+1<p\le 2n+1}}p\le \binom{2n+1}{n}\le \frac1{2n+2}2^{2n+1}=\frac1{n+1}4^n<4^n.$ For the range $1\le p\le n+1$, we simply use strong induction: $P(n+1)< 4^{n+1}$, giving $P(2n+1)< 4^{n+1}\cdot 4^n= 4^{2n+1}$, as desired.
+
+
+\end{proof}
+\vs
+
+\subsection{Cooking the Recipe}
+
+We can now \textit{finally} prove Bertrand's Postulate:
+
+\begin{theorem}
+    For every $n\ge 2$, there is a prime $p$ such that $n<p<2n$.
+\end{theorem}
+\vs
+
+\begin{proof}
+    For $n =2, 3, 4$, we know that the claim is true by inspection. So we can take $n\ge 5$. Now, aiming for a contradiction, suppose that Bertrand's Postulate is false.
+
+    In this case, it follows from \ref{lemma:upper_bound_bn} and \ref{lemma:bound_primorial} that, for some $n\ge 5$, we have $B_n\le4^{2n/3}(2n)^{\sqrt{2n}}$. Furthermore, by \ref{lemma:lower_bound_bn}, we have $B_n\ge \frac{4^n}{2n+1}$. Combining these two inequalities, we obtain that such $n$ must satisfy
+    
+    \[
+    4^{n/3}
+    <
+    (2n+1)(2n)^{\sqrt{2n}}.
+    \]
+
+    We claim that this can only happen for $n< 4096=4^{12}$. This number is not of particular relevance -- the idea here is that, asymptotically, this inequality cannot hold, so there are only finitely many candidates for which Bertrand's Postulate is possibly false. This choice for $4096$ is simply by the fact that $\log_2(4096)=12$ is a number big enough to make easy estimates for the inequalities.
+    
+    \begin{remark}
+    The usual presentation for this fact uses the optimal bound $n<427$, obtained by computational means. The big picture, however, is the same. In order to avoid using explicit fact about calculus, we use lots of admittedly ugly inequalities; we aim to keep the contents of the proof accessible to e.g. high-school mathematical Olympiad students. The only facts we use for logarithms is their definition as the inverse of exponentials (and consequences, such as base-change theorems) and their monotonicity.
+    \end{remark}
+    \vs
+    
+    In fact, by taking base-4 logarithms, the inequality is equivalent to  
+
+    \[n < 3\log_4(2n+1)+3\sqrt{2}\cdot\sqrt{n}\log_4(2n).\]
+
+    Or, in other terms, using $\log_4(x)=\frac12 \log_2(x)$, that the function 
+    \[
+    g(n) = n - \frac{3}{2}\log_2(2n+1) - \frac{3\sqrt{2}}{2}\sqrt{n}\log_2(2n).
+    \]
+    satisfies $g(n) < 0$. What we claim is that for any $n\ge 4096$, the \textit{reverse} inequality holds: $g(n)>0$. That is, Bertrand's Postulate \textit{cannot} be false for $n\ge 4096$. In particular, any possible counterexample lies in $5\le n<4096$.\vs
+
+    
+    We begin by noting the numerical bound $\frac{3\sqrt{2}}{2} = \sqrt{\frac{9}{2}} < \frac{9}{4}$, since $4\sqrt{\frac92}=\sqrt{8\cdot 9}<\sqrt{9^2}=9$. We then use two lemmas for estimates:
+    
+    \begin{lemma}
+    For all $x \ge 1$, $\log_2(x) < 2\sqrt{x}$.
+    \end{lemma}
+    \begin{remark}
+        With calculus: $f(x)= 2\sqrt{x}-\log_2(x)$ is s.t. $f(1)=2$ and $f'(x)=1/\sqrt{x}-1/(x\ln 2)=\frac{1}{\sqrt{x}}(1-\frac{1}{\ln 2\cdot \sqrt{x}})$, which is always positive since $\ln2\cdot \sqrt{x}\ge \ln 2\ge 1$, making the difference between brackets always positive and $f(x)\ge 2>0\ \forall x\ge 1$.
+    \end{remark}
+    \begin{proof}
+    We begin proving the auxiliary inequality $2^u >u$ for positive $u$: first, it's easy to show that it holds for natural $u$ by induction, since $2^{u+1}= 2\cdot 2^u>2u>u+1$ for $u\ge 2$. It holds for $0\le u<1$ since $2^u\ge 1>u$. The same idea can be used to prove it for the intervals $1\le u<2$ and $2\le u<4$ and $4\le u<16$. Now, if $u>16$, we use that $2^{u/2}\ge 2^{\floor{\frac{u}{2}}}\ge \floor{\frac u2}>\frac{u}{2}-1$ and square to get $2^u> (\frac{u}{2}-1)^2$, and since $(u-2)^2-4u = u^2 - 8u +4 = u(u-8)+4$, with $u-8\ge 8>1$, it follows that $(u-2)^2-4u>0\implies (\frac{u}2-1)^2>u$, and the general inequality follows.\footnote{This could be done much more easily if the reader is aware of \textit{Bernoulli's inequality} $(1+t)^u\ge 1+tu$, for $t = 1$.}
+    
+    So by setting $u = \frac{1}{2}\log_2(x) \ge 0$, the result follows from
+    \[
+    \sqrt{x}=2^{\log_2(\sqrt{x})}=2^{\frac{1}{2}\log_2(x)} > \frac{1}{2}\log_2(x).
+    \]
+    \end{proof}
+
+    Now we make the second estimate.
+    \begin{lemma}
+    For all $n \ge 4096$, $\log_2(n) \le \frac{7}{32}\sqrt{n}$.
+    \end{lemma}
+    \begin{proof}
+    Since $n \ge 4096 = 2^{12}=64^2$, write $n = 4096k$ with $k \ge 1$, so that $\sqrt{n} = 64\sqrt{k}$. By the previous lemma,
+    \[
+    \log_2(n) = \log_2(4096k) = 12 + \log_2(k) \le 12 + 2\sqrt{k}.
+    \]
+    Since $k \ge 1$, $12 \le 12\sqrt{k}$, which gives:
+    \[
+    12 + 2\sqrt{k} \le 14\sqrt{k} = 14 \cdot \left(\frac{\sqrt{n}}{64}\right) = \frac{7}{32}\sqrt{n}.
+    \]
+    \end{proof}
+    
+    We can then find the logarithmic inequalities
+    \begin{align*}
+    \log_2(2n+1) &< \log_2(4n) = 2 + \log_2(n) \le 2 + \frac{7}{32}\sqrt{n}, \\
+    \log_2(2n) &= 1 + \log_2(n) \le 1 + \frac{7}{32}\sqrt{n}.
+    \end{align*}
+    
+    Substituting these bounds together with $\frac{3\sqrt{2}}{2} < \frac{9}{4}$ into $g(n)$ and simplifying all the algebra, one finds that
+    \begin{align*}
+    g(n) &> \frac{65}{128}n - \frac{165}{64}\sqrt{n} - 3.
+    \end{align*}
+
+    Thinking of the right hand side as a polynomial in $t:= \sqrt{n}\ge 64$, we just need to find when $65t^2-330t+384>0$. Manipulating this expression, the inequality is equivalent to $65\left(t-\frac{33}{13}\right)^2>\frac{153}{13}$; here $\frac{33}{13}=2+\frac{7}{13}$ and $\frac{153}{13}=11+\frac{10}{13}$, so $65(t-\frac{33}{13})^2>65(t-3)^2>65\cdot 61^2>65>\frac{153}{13}$, thus making $\frac{65}{128}n - \frac{165}{64}\sqrt{n} - 3>0$ for all $n\ge 4096$ and completing the claim.
+    \vs
+
+    To finish the proof, we just need to check that for $5\le n\le 4096$, there's always a prime between $n$ and $2n$. But this is easy to do by inspection: using a known database of primes, we can list primes the following way: we take $p_1=2$ and define $p_{i+1}$ as greatest prime $p_i<p< 2p_i$,\footnote{Which we know that exists not by a mathematical argument, but simply inspection: start with $5$, go to $10$ and go backwards until you find a prime -- which is $7$. From $7$, go to $14$ and find $13$, etc.} giving the list of primes $p_i, 1\le i\le 12$,
+
+    $$
+    5,\ 7,\ 13,\ 23,\ 43,\ 83,\ 163,\ 317,\ 631,\ 1259,\ 2503,\ 5003.
+    $$
+
+    Now take any $5\le n\le 4096<5003=p_{12}$. Take $p_i$ as the greatest prime $\le n$ in the list (hence $p_i<p_{12}\implies i<12$). This means that $p_i\le n<p_{i+1}$ by construction. Since we constructed the previous list in such a way that $p_{i+1}<2p_i $, and $ p_i\le n\implies 2p_i\le 2n$ by our choice of maximal $p_i\le n$, the chain of inequalities $p_i\le n<p_{i+1}<2p_i\le 2n$ implies that $n<p_{i+1}<2n$. Therefore $p_{i+1}$ is a prime strictly between $n$ and $2n$, completing the proof of Bertrand's Postulate for the remaining cases.
+    \end{proof}
+
+
+\bibliographystyle{alphaurl}
+\bibliography{bertrand}
+
+
+\end{document}
